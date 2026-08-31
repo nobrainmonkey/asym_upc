@@ -1,0 +1,8 @@
+hbarc_gev_fm = 0.1973269804
+alpha_em = 1 / 137.035999084
+
+OXYGEN_A = 16
+OXYGEN_Z = 8
+
+NEON_A = 20
+NEON_Z = 10
