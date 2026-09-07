@@ -12,3 +12,6 @@ env/
 .mypy_cache/
 .ruff_cache/
 
+.DS_Store
+.vscode/
+/handoff-please git ignore this- for claude/

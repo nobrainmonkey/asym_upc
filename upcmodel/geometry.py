@@ -1,10 +1,20 @@
-from densities import fermi_radial_pdf
 from scipy.integrate import cumulative_trapezoid
-from parameters import O16_3PF
-from parameters import AlphaClusterParameters
-from parameters import O16_ALPHA
-from parameters import FermiParameters
 import numpy as np
+from scipy.stats import poisson
+
+
+if __package__:
+    from .densities import fermi_radial_pdf
+    from .parameters import (
+        O16_3PF, O16_ALPHA, RHO_HS,
+        AlphaClusterParameters, FermiParameters, HotspotParameters,
+    )
+else:
+    from densities import fermi_radial_pdf
+    from parameters import (
+        O16_3PF, O16_ALPHA, RHO_HS,
+        AlphaClusterParameters, FermiParameters, HotspotParameters,
+    )
 
 rng = np.random.default_rng(seed=2026)
 
@@ -214,10 +224,202 @@ def sample_tetrahedron_nucleon_events(n_events,parameter: AlphaClusterParameters
     if accepted_counts < n_events:
         raise RuntimeError(f"Accepted only {accepted_counts}/{n_events} events after {attempts} attempts")
     return all_nucleon_positions, all_proton_masks
-alpha_events, alpha_proton_masks = (
-    sample_tetrahedron_nucleon_events(
-        10_000,
-        O16_ALPHA,
-        rng,
+
+def mean_hotspot_count(bj_x, parameters: HotspotParameters):
+    """Return the underlying Poisson mean lambda(x) for scalar or array x.
+
+    The mean after rejecting zero is lambda / (1 - exp(-lambda)).
+    Reference: https://arxiv.org/html/2312.11320v2
+    """
+    bj_x = np.asarray(bj_x, dtype=float)
+    if np.any(~np.isfinite(bj_x)):
+        raise ValueError("bj_x must be finite")
+    if np.any(bj_x <= 0.0):
+        raise ValueError("bj_x must be positive")
+
+    parameters_array = np.asarray(
+        [parameters.p0, parameters.p1, parameters.p2], dtype=float
     )
-)
+    if parameters_array.shape != (3,):
+        raise ValueError("p0, p1, and p2 must be scalars")
+    if np.any(~np.isfinite(parameters_array)):
+        raise ValueError("p0, p1, and p2 must be finite")
+
+    p0, p1, p2 = parameters_array
+    with np.errstate(over="ignore", invalid="ignore"):
+        poisson_mean = p0 * bj_x**p1 * (1.0 + p2 * np.sqrt(bj_x))
+    if np.any(~np.isfinite(poisson_mean)) or np.any(poisson_mean <= 0.0):
+        raise ValueError("Hotspot parameters must produce a finite positive Poisson mean")
+    return poisson_mean
+
+def sample_zero_truncated_poisson(poisson_mean, size, rng):
+    """Draw positive counts from a Poisson distribution with a scalar mean."""
+    poisson_mean = np.asarray(poisson_mean, dtype=float)
+    if poisson_mean.ndim != 0:
+        raise ValueError("poisson_mean must be a scalar")
+    if not np.isfinite(poisson_mean) or poisson_mean <= 0.0:
+        raise ValueError("poisson_mean must be finite and positive")
+    poisson_mean = float(poisson_mean)
+
+    probability_zero = np.exp(-poisson_mean)
+    u = rng.random(size=size)
+    poisson_quantile = probability_zero + u * (-np.expm1(-poisson_mean))
+    poisson_quantile = np.clip(
+        poisson_quantile,
+        np.nextafter(probability_zero, 1.0),
+        np.nextafter(1.0, 0.0),
+    )
+    samples = poisson.ppf(poisson_quantile, poisson_mean).astype(int)
+    if np.any(samples < 1):
+        raise RuntimeError("Zero-truncated Poisson sampling failed")
+    return samples
+
+
+def sample_target_hotspots(nucleon_positions_fm, bj_x, hotspot_parameters: HotspotParameters, rng):
+    """Sample one 3D hotspot configuration from nucleon positions (A, 3).
+
+    Return positions (M, 3), parent IDs (M,), weights (M,), and counts (A,),
+    where M is the sum of the counts. Coordinates are in fm; bj_x is scalar.
+    """
+    nucleon_positions_fm = np.asarray(nucleon_positions_fm, dtype=float)
+    if (
+        nucleon_positions_fm.ndim != 2
+        or nucleon_positions_fm.shape[1] != 3
+        or nucleon_positions_fm.shape[0] == 0
+    ):
+        raise ValueError("nucleon_positions_fm must have shape (A, 3) with A >= 1")
+    if np.any(~np.isfinite(nucleon_positions_fm)):
+        raise ValueError("nucleon_positions_fm must be finite")
+
+    bj_x = np.asarray(bj_x, dtype=float)
+    if bj_x.ndim != 0:
+        raise ValueError("bj_x must be a scalar for one target configuration")
+    poisson_mean = mean_hotspot_count(bj_x, hotspot_parameters)
+
+    widths_fm2 = np.asarray(
+        [hotspot_parameters.B_p_fm2, hotspot_parameters.B_hs_fm2], dtype=float
+    )
+    if (
+        widths_fm2.shape != (2,)
+        or np.any(~np.isfinite(widths_fm2))
+        or np.any(widths_fm2 <= 0.0)
+    ):
+        raise ValueError("B_p and B_hs must be finite positive scalars")
+
+    hotspot_positions_fm = []
+    hotspot_parent_ids = []
+    hotspot_weights = []
+    hotspot_counts = []
+
+    for nucleon_index, nucleon_position_fm in enumerate(nucleon_positions_fm):
+        n_hotspots = int(sample_zero_truncated_poisson(poisson_mean, 1, rng)[0])
+        hotspot_counts.append(n_hotspots)
+        for _ in range(n_hotspots):
+            hotspot_positions_fm.append(rng.normal(loc=nucleon_position_fm, scale=np.sqrt(hotspot_parameters.B_p_fm2), size=3))
+            hotspot_parent_ids.append(nucleon_index)
+            hotspot_weights.append(1.0 / n_hotspots)
+    return (
+        np.asarray(hotspot_positions_fm, dtype=float),
+        np.asarray(hotspot_parent_ids, dtype=int),
+        np.asarray(hotspot_weights, dtype=float),
+        np.asarray(hotspot_counts, dtype=int),
+    )
+
+
+def position_to_gaussian_density(grid_fm, centers_fm, sigma_fm, weights, mode="hotspot"):
+    """Evaluate a weighted 3D Gaussian density in fm^-3.
+
+    P = number of evaluation points, M = number of centers
+    grid_fm has shape (P,3)
+    centers_fm has shape (M,3)
+    weights has shape (M,)
+    sigma_fm is a finite positive scalar standard deviation in fm.
+    The output density has shape (P,)
+
+    mode labels the sources; both modes use the supplied weights.
+    Pass np.ones(M) for unit-weight nucleons. The volume integral equals
+    weights.sum().
+    """
+    grid_fm = np.asarray(grid_fm, dtype=float)
+    centers_fm = np.asarray(centers_fm, dtype=float)
+
+    if grid_fm.ndim != 2 or grid_fm.shape[1] != 3:
+        raise ValueError("grid_fm must have shape (P, 3)")
+    if centers_fm.ndim != 2 or centers_fm.shape[1] != 3:
+        raise ValueError("centers_fm must have shape (M, 3)")
+    if np.any(~np.isfinite(grid_fm)):
+        raise ValueError("grid_fm must be finite")
+    if np.any(~np.isfinite(centers_fm)):
+        raise ValueError("centers_fm must be finite")
+
+    sigma_fm = np.asarray(sigma_fm, dtype=float)
+    if sigma_fm.ndim != 0:
+        raise ValueError("sigma_fm must be a scalar")
+    if not np.isfinite(sigma_fm) or sigma_fm <= 0.0:
+        raise ValueError("sigma_fm must be finite and positive")
+    sigma_fm = float(sigma_fm)
+
+    if mode not in ["hotspot", "nucleon"]:
+        raise ValueError("mode must be either 'hotspot' or 'nucleon'")
+
+    weights = np.asarray(weights, dtype=float)
+    if weights.shape != (len(centers_fm),):
+        raise ValueError("weights must have shape (M,)")
+    if np.any(~np.isfinite(weights)):
+        raise ValueError("weights must be finite")
+
+    # (P,1,3) - (1,M,3) -> (P,M,3) displacement vectors
+    diff = grid_fm[:, None, :] - centers_fm[None, :, :]
+    r2 = np.sum(diff**2, axis=-1)                       # (P,M) squared distances
+
+    norm_const = (2.0 * np.pi * sigma_fm**2) ** (-1.5)
+    gauss = norm_const * np.exp(-r2 / (2.0 * sigma_fm**2))   # (P,M)
+
+    density_values = gauss @ weights                    # (P,)
+    return density_values
+
+def position_to_gaussian_thickness(grid_fm, centers_fm, sigma_fm, weights):
+    """Evaluate the full z integral of the 3D Gaussian density in fm^-2.
+
+    Integrating from -infinity to infinity gives a factor sqrt(2*pi)*sigma,
+    leaving a normalized 2D Gaussian independent of each center's z position.
+    grid_fm has shape (P,2), or (P,3) with only x and y used.
+    centers_fm has shape (M,3).
+    weights has shape (M,)
+    sigma_fm is a finite positive scalar standard deviation in fm.
+    The output thickness has shape (P,). Its transverse integral equals
+    weights.sum(), for either hotspot weights or unit-weight nucleons.
+    """
+    grid_fm = np.asarray(grid_fm, dtype=float)
+    centers_fm = np.asarray(centers_fm, dtype=float)
+
+    if grid_fm.ndim != 2 or grid_fm.shape[1] not in (2, 3):
+        raise ValueError("grid_fm must have shape (P, 2) or (P, 3)")
+    if centers_fm.ndim != 2 or centers_fm.shape[1] != 3:
+        raise ValueError("centers_fm must have shape (M, 3)")
+    if np.any(~np.isfinite(grid_fm)):
+        raise ValueError("grid_fm must be finite")
+    if np.any(~np.isfinite(centers_fm)):
+        raise ValueError("centers_fm must be finite")
+
+    sigma_fm = np.asarray(sigma_fm, dtype=float)
+    if sigma_fm.ndim != 0:
+        raise ValueError("sigma_fm must be a scalar")
+    if not np.isfinite(sigma_fm) or sigma_fm <= 0.0:
+        raise ValueError("sigma_fm must be finite and positive")
+    sigma_fm = float(sigma_fm)
+
+    weights = np.asarray(weights, dtype=float)
+    if weights.shape != (len(centers_fm),):
+        raise ValueError("weights must have shape (M,)")
+    if np.any(~np.isfinite(weights)):
+        raise ValueError("weights must be finite")
+
+    diff = grid_fm[:, None, :2] - centers_fm[None, :, :2]  # (P,M,2)
+    r2 = np.sum(diff**2, axis=-1)  # (P,M) squared distances in the transverse plane
+
+    norm_const = (2.0 * np.pi * sigma_fm**2) ** (-1.0)  # 2D Gaussian normalization
+    gauss = norm_const * np.exp(-r2 / (2.0 * sigma_fm**2))  # (P,M)
+
+    thickness_values = gauss @ weights  # (P,)
+    return thickness_values

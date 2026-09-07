@@ -1,0 +1,473 @@
+{
+  "seed": 20260907,
+  "bj_x": 0.001,
+  "event_index": 0,
+  "n_events_per_model": 4000,
+  "n_hotspot_events_per_model": 512,
+  "n_field_events_per_model": 64,
+  "parameters": {
+    "fermi": {
+      "name": "O16_3PF",
+      "A": 16,
+      "Z": 8,
+      "R_fm": 2.608,
+      "a_fm": 0.513,
+      "w": -0.051,
+      "r_max_fm": 10.0,
+      "radial_grid_points": 20001,
+      "min_separation_fm": 0.5
+    },
+    "alpha": {
+      "name": "O16_ALPHA",
+      "A": 16,
+      "Z": 8,
+      "n_clusters": 4,
+      "cluster_A": 4,
+      "cluster_Z": 2,
+      "min_separation_fm": 0.5,
+      "cluster_radius_fm": 2.1,
+      "nucleon_sigma_fm": 0.9814954576223638
+    },
+    "hotspots": {
+      "name": "RHO_HS",
+      "p0": 0.015,
+      "p1": -0.58,
+      "p2": 300,
+      "B_p_GeV_m2": 4.75,
+      "B_hs_GeV_m2": 0.8
+    }
+  },
+  "profile_widths_fm": {
+    "nucleon": 0.46487154292932364,
+    "hotspot": 0.17649461678766745
+  },
+  "smooth_width_convention": "sigma_N^2 = B_p_fm2 + B_hs_fm2; conditional mean of hotspot profile",
+  "versions": {
+    "python": "3.14.6",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1",
+    "plotly": "6.9.0"
+  },
+  "source_sha256": {
+    "geometry.py": "add0b86e0f037fd9554ca672800cdf24149a4f51df0a82b6a054df9e3f0c18b9",
+    "densities.py": "ac2771dc861daeac81c65d14a2f6bb3c3561812ef6238aa7cb725b55a8c73c96",
+    "parameters.py": "461e83b9d4ff4e8e66bc9a06a866a77619a48a553a3a5fcbb8d63ca40f499d31"
+  },
+  "normalization": [
+    {
+      "model": "WS / 3pF",
+      "mode": "nucleon",
+      "volume": 15.99999999998549,
+      "thickness": 15.999999999976877,
+      "finite_box": 15.99999999999222,
+      "volume_grid": [
+        50,
+        53,
+        51
+      ]
+    },
+    {
+      "model": "WS / 3pF",
+      "mode": "hotspot",
+      "volume": 15.999999999998375,
+      "thickness": 16.0,
+      "finite_box": 15.999999999999131,
+      "volume_grid": [
+        101,
+        110,
+        101
+      ]
+    },
+    {
+      "model": "alpha",
+      "mode": "nucleon",
+      "volume": 15.999999999984848,
+      "thickness": 15.999999999999387,
+      "finite_box": 15.999999999991932,
+      "volume_grid": [
+        52,
+        44,
+        52
+      ]
+    },
+    {
+      "model": "alpha",
+      "mode": "hotspot",
+      "volume": 15.999999999998131,
+      "thickness": 16.0,
+      "finite_box": 15.999999999999002,
+      "volume_grid": [
+        105,
+        80,
+        100
+      ]
+    }
+  ],
+  "z_integration_max_relative_errors": {
+    "WS / 3pF nucleon": [
+      0.008281111534468755,
+      2.740345061980065e-09,
+      1.3322676295501878e-15
+    ],
+    "WS / 3pF hotspot": [
+      0.01305523908011108,
+      3.6459910646158278e-09,
+      8.881784197001252e-16
+    ],
+    "alpha nucleon": [
+      0.008802485668298665,
+      2.514358832250707e-09,
+      1.6653345369377348e-15
+    ],
+    "alpha hotspot": [
+      0.011882044377911294,
+      3.0939162343202042e-09,
+      7.771561172376096e-16
+    ]
+  },
+  "ensemble_statistics": {
+    "WS / 3pF": {
+      "rms_center_radius_fm": 2.660622341763795,
+      "mean_epsilon2": 0.31211170695664203,
+      "mean_epsilon3": 0.36118632048560995,
+      "minimum_3d_pair_distance_fm": 0.5000007735787492,
+      "mean_hotspot_count": 8.7353515625
+    },
+    "alpha": {
+      "rms_center_radius_fm": 2.6853140355061726,
+      "mean_epsilon2": 0.2521181873805985,
+      "mean_epsilon3": 0.45432192018074546,
+      "minimum_3d_pair_distance_fm": 0.5001783173947397,
+      "mean_hotspot_count": 8.5867919921875
+    }
+  },
+  "checks": [
+    {
+      "name": "3pF density normalization",
+      "passed": true,
+      "detail": "integral=15.999999999999"
+    },
+    {
+      "name": "3pF CDF endpoints and monotonicity",
+      "passed": true,
+      "detail": "CDF rises from 0 to 1"
+    },
+    {
+      "name": "WS / 3pF: output shapes",
+      "passed": true,
+      "detail": "(4000, 16, 3), (4000, 16)"
+    },
+    {
+      "name": "WS / 3pF: finite coordinates",
+      "passed": true,
+      "detail": "all finite"
+    },
+    {
+      "name": "WS / 3pF: centered events",
+      "passed": true,
+      "detail": "max coordinate COM=4.86e-16 fm"
+    },
+    {
+      "name": "WS / 3pF: eight protons",
+      "passed": true,
+      "detail": "all events"
+    },
+    {
+      "name": "WS / 3pF: 3D hard core",
+      "passed": true,
+      "detail": "minimum=0.500001 fm"
+    },
+    {
+      "name": "alpha: output shapes",
+      "passed": true,
+      "detail": "(4000, 16, 3), (4000, 16)"
+    },
+    {
+      "name": "alpha: finite coordinates",
+      "passed": true,
+      "detail": "all finite"
+    },
+    {
+      "name": "alpha: centered events",
+      "passed": true,
+      "detail": "max coordinate COM=4.44e-16 fm"
+    },
+    {
+      "name": "alpha: eight protons",
+      "passed": true,
+      "detail": "all events"
+    },
+    {
+      "name": "alpha: 3D hard core",
+      "passed": true,
+      "detail": "minimum=0.500178 fm"
+    },
+    {
+      "name": "Alpha: two protons per cluster",
+      "passed": true,
+      "detail": "all four clusters in every event"
+    },
+    {
+      "name": "Regular tetrahedron radii and edges",
+      "passed": true,
+      "detail": "edge length=3.429286 fm"
+    },
+    {
+      "name": "Rotations are proper orthogonal matrices",
+      "passed": true,
+      "detail": "R.T R=I; det R=+1"
+    },
+    {
+      "name": "WS / 3pF: hotspot shapes",
+      "passed": true,
+      "detail": "M=sum(counts); centers (M,3); IDs and weights (M,)"
+    },
+    {
+      "name": "WS / 3pF: positive counts and parent IDs",
+      "passed": true,
+      "detail": "bincount(parent IDs)=counts"
+    },
+    {
+      "name": "WS / 3pF: hotspot parent and target weights",
+      "passed": true,
+      "detail": "each parent sums to 1; each event sums to 16"
+    },
+    {
+      "name": "alpha: hotspot shapes",
+      "passed": true,
+      "detail": "M=sum(counts); centers (M,3); IDs and weights (M,)"
+    },
+    {
+      "name": "alpha: positive counts and parent IDs",
+      "passed": true,
+      "detail": "bincount(parent IDs)=counts"
+    },
+    {
+      "name": "alpha: hotspot parent and target weights",
+      "passed": true,
+      "detail": "each parent sums to 1; each event sums to 16"
+    },
+    {
+      "name": "Zero-truncated Poisson small-rate control",
+      "passed": true,
+      "detail": "25,000 draws at rate 0.2; no zeros"
+    },
+    {
+      "name": "WS / 3pF nucleon: numerical z integral",
+      "passed": true,
+      "detail": "max relative error above 1e-8 of peak=1.33e-15"
+    },
+    {
+      "name": "WS / 3pF hotspot: numerical z integral",
+      "passed": true,
+      "detail": "max relative error above 1e-8 of peak=8.88e-16"
+    },
+    {
+      "name": "alpha nucleon: numerical z integral",
+      "passed": true,
+      "detail": "max relative error above 1e-8 of peak=1.67e-15"
+    },
+    {
+      "name": "alpha hotspot: numerical z integral",
+      "passed": true,
+      "detail": "max relative error above 1e-8 of peak=7.77e-16"
+    },
+    {
+      "name": "WS / 3pF nucleon: 3D volume integral",
+      "passed": true,
+      "detail": "numerical=15.999999999985; finite-box exact=15.999999999992"
+    },
+    {
+      "name": "WS / 3pF nucleon: transverse integral",
+      "passed": true,
+      "detail": "integral=15.999999999977; expected=16"
+    },
+    {
+      "name": "WS / 3pF hotspot: 3D volume integral",
+      "passed": true,
+      "detail": "numerical=15.999999999998; finite-box exact=15.999999999999"
+    },
+    {
+      "name": "WS / 3pF hotspot: transverse integral",
+      "passed": true,
+      "detail": "integral=16.000000000000; expected=16"
+    },
+    {
+      "name": "alpha nucleon: 3D volume integral",
+      "passed": true,
+      "detail": "numerical=15.999999999985; finite-box exact=15.999999999992"
+    },
+    {
+      "name": "alpha nucleon: transverse integral",
+      "passed": true,
+      "detail": "integral=15.999999999999; expected=16"
+    },
+    {
+      "name": "alpha hotspot: 3D volume integral",
+      "passed": true,
+      "detail": "numerical=15.999999999998; finite-box exact=15.999999999999"
+    },
+    {
+      "name": "alpha hotspot: transverse integral",
+      "passed": true,
+      "detail": "integral=16.000000000000; expected=16"
+    },
+    {
+      "name": "WS / 3pF nucleon: 3D covariance",
+      "passed": true,
+      "detail": "rotate or translate both the query points and all centers"
+    },
+    {
+      "name": "WS / 3pF nucleon: thickness covariance and longitudinal invariance",
+      "passed": true,
+      "detail": "in-plane rotations preserve values; shifting centers along z preserves full integrals"
+    },
+    {
+      "name": "WS / 3pF hotspot: 3D covariance",
+      "passed": true,
+      "detail": "rotate or translate both the query points and all centers"
+    },
+    {
+      "name": "WS / 3pF hotspot: thickness covariance and longitudinal invariance",
+      "passed": true,
+      "detail": "in-plane rotations preserve values; shifting centers along z preserves full integrals"
+    },
+    {
+      "name": "alpha nucleon: 3D covariance",
+      "passed": true,
+      "detail": "rotate or translate both the query points and all centers"
+    },
+    {
+      "name": "alpha nucleon: thickness covariance and longitudinal invariance",
+      "passed": true,
+      "detail": "in-plane rotations preserve values; shifting centers along z preserves full integrals"
+    },
+    {
+      "name": "alpha hotspot: 3D covariance",
+      "passed": true,
+      "detail": "rotate or translate both the query points and all centers"
+    },
+    {
+      "name": "alpha hotspot: thickness covariance and longitudinal invariance",
+      "passed": true,
+      "detail": "in-plane rotations preserve values; shifting centers along z preserves full integrals"
+    },
+    {
+      "name": "Single-source 3D and 2D peak normalizations",
+      "passed": true,
+      "detail": "known Gaussian peaks, including an off-plane source"
+    },
+    {
+      "name": "WS / 3pF: seed reproducibility",
+      "passed": true,
+      "detail": "replaying the first three events reproduces coordinates and proton masks exactly"
+    },
+    {
+      "name": "WS / 3pF: hotspot seed reproducibility",
+      "passed": true,
+      "detail": "all four hotspot outputs reproduce exactly"
+    },
+    {
+      "name": "alpha: seed reproducibility",
+      "passed": true,
+      "detail": "replaying the first three events reproduces coordinates and proton masks exactly"
+    },
+    {
+      "name": "alpha: hotspot seed reproducibility",
+      "passed": true,
+      "detail": "all four hotspot outputs reproduce exactly"
+    },
+    {
+      "name": "WS / 3pF nucleon: fine XY quadrature, phase 0.0",
+      "passed": true,
+      "detail": "relative integration error=1.11e-16"
+    },
+    {
+      "name": "WS / 3pF nucleon: fine XY quadrature, phase 0.37",
+      "passed": true,
+      "detail": "relative integration error=2.22e-16"
+    },
+    {
+      "name": "WS / 3pF hotspot: fine XY quadrature, phase 0.0",
+      "passed": true,
+      "detail": "relative integration error=1.11e-16"
+    },
+    {
+      "name": "WS / 3pF hotspot: fine XY quadrature, phase 0.37",
+      "passed": true,
+      "detail": "relative integration error=1.11e-16"
+    },
+    {
+      "name": "alpha nucleon: fine XY quadrature, phase 0.0",
+      "passed": true,
+      "detail": "relative integration error=1.11e-16"
+    },
+    {
+      "name": "alpha nucleon: fine XY quadrature, phase 0.37",
+      "passed": true,
+      "detail": "relative integration error=3.33e-16"
+    },
+    {
+      "name": "alpha hotspot: fine XY quadrature, phase 0.0",
+      "passed": true,
+      "detail": "relative integration error=0"
+    },
+    {
+      "name": "alpha hotspot: fine XY quadrature, phase 0.37",
+      "passed": true,
+      "detail": "relative integration error=0"
+    },
+    {
+      "name": "WS / 3pF nucleon: ensemble mean normalization",
+      "passed": true,
+      "detail": "mean map integral=16.0000000000"
+    },
+    {
+      "name": "WS / 3pF hotspot: ensemble mean normalization",
+      "passed": true,
+      "detail": "mean map integral=16.0000000565"
+    },
+    {
+      "name": "alpha nucleon: ensemble mean normalization",
+      "passed": true,
+      "detail": "mean map integral=16.0000000000"
+    },
+    {
+      "name": "alpha hotspot: ensemble mean normalization",
+      "passed": true,
+      "detail": "mean map integral=15.9999999053"
+    }
+  ],
+  "static_figures": [
+    "01_fermi_input.png",
+    "02_sampling_controls.png",
+    "03_tetrahedron_and_rotations.png",
+    "04_nucleons_three_views.png",
+    "05_nucleon_projections.png",
+    "06_event_gallery.png",
+    "07_ensemble_isotropy.png",
+    "08_radii_and_size_fluctuations.png",
+    "09_shape_and_charge_fluctuations.png",
+    "10_pair_distances.png",
+    "11_hotspot_parents_3d_and_xy.png",
+    "12_hotspot_statistics.png",
+    "13_hotspot_energy_and_truncation.png",
+    "14_density_slices_and_thickness.png",
+    "15_thickness_surfaces.png",
+    "16_longitudinal_slice_stack.png",
+    "17_fixed_configuration_rotated.png",
+    "18_fixed_nucleons_energy_scan.png",
+    "19_density_to_thickness_numerically.png",
+    "20_longitudinal_convergence.png",
+    "21_transverse_resolution.png",
+    "22_ensemble_mean_and_fluctuations.png",
+    "23_ensemble_radial_profiles.png",
+    "24_conditional_hotspot_average.png"
+  ],
+  "interactive_files": [
+    "geometry_3d.html",
+    "density_3d.html"
+  ],
+  "elapsed_seconds": 27.23
+}

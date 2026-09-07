@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import math
 
 
+HBARC_GEV_FM = 0.1973269804  # GeV*fm
 @dataclass(frozen=True)
 class FermiParameters:
     name: str
@@ -70,6 +71,20 @@ class AlphaClusterParameters:
             raise ValueError("nucleon_sigma_fm must be positive")
         if self.min_separation_fm < 0:
             raise ValueError("min_separation_fm must be non-negative")
+@dataclass(frozen=True)
+class HotspotParameters:
+    name:str
+    p0: float
+    p1: float
+    p2: float
+    B_p_GeV_m2: float
+    B_hs_GeV_m2: float
+    @property
+    def B_p_fm2(self):
+        return self.B_p_GeV_m2 * HBARC_GEV_FM**2
+    @property
+    def B_hs_fm2(self):
+        return self.B_hs_GeV_m2 * HBARC_GEV_FM**2
 
 O16_3PF = FermiParameters(
     name="O16_3PF",
@@ -93,4 +108,46 @@ O16_ALPHA = AlphaClusterParameters(
     min_separation_fm=0.5,
     cluster_radius_fm=2.1,
     nucleon_sigma_fm= 1.7/math.sqrt(3)
+)
+
+RHO_HS= HotspotParameters(
+    name="RHO_HS",
+    p0=0.015,
+    p1=-0.58,
+    p2=300,
+    B_p_GeV_m2 = 6.4,
+    B_hs_GeV_m2 = 0.8,
+)
+
+JPSI_HS= HotspotParameters(
+    name="JPSI_HS",
+    p0=0.015,
+    p1=-0.58,
+    p2=300,
+    B_p_GeV_m2 = 4.75,
+    B_hs_GeV_m2 = 0.8,
+)
+
+@dataclass(frozen=True)
+class GBWParameters:
+    """GBW scale parameters, with Q0 stored in GeV as in the paper."""
+
+    name:str
+    Q0_GeV: float
+    x0: float
+    lambda_gbw: float
+
+    def __post_init__(self):
+        if not math.isfinite(self.Q0_GeV) or self.Q0_GeV <= 0:
+            raise ValueError("Q0_GeV must be finite and positive")
+        if not math.isfinite(self.x0) or self.x0 <= 0 or self.x0 > 1:
+            raise ValueError("x0 must be finite and in (0, 1]")
+        if not math.isfinite(self.lambda_gbw) or self.lambda_gbw <= 0:
+            raise ValueError("lambda_gbw must be finite and positive")
+
+GBW_PAPER = GBWParameters(
+    name="GBW_PAPER",
+    Q0_GeV=1.0,
+    x0=2e-4,
+    lambda_gbw=0.21,
 )

@@ -6,7 +6,10 @@ import numpy as np
 from scipy.integrate import quad
 from scipy.special import expit
 
-from parameters import FermiParameters
+if __package__:
+    from .parameters import FermiParameters
+else:
+    from parameters import FermiParameters
 
 
 def fermi_shape(r_fm, parameters: FermiParameters):
@@ -91,4 +94,3 @@ def fermi_radial_pdf(r_fm, parameters: FermiParameters):
         * density
         / parameters.A
     )
-

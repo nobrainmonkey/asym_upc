@@ -1,0 +1,9 @@
+# Preserve scientific artifacts without text conversion or merging.
+*.pdf binary
+*.png binary
+*.npz binary
+
+# HTML exports bundle generated plotting code and data.
+notebooks/01_spherical_geometry.html binary linguist-generated=true
+notebooks/geometry_debug_outputs/*.html binary linguist-generated=true
+notebooks/geometry_debug_outputs/** linguist-generated=true
