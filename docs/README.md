@@ -49,8 +49,9 @@ Notebook 3 configures these fixed inputs once and reuses them for each event.
   The notes distinguish the model ingredients and experimental breakup cuts.
 - [EPA mathematics and implementation plan](epa_implementation_plan.md):
   point-charge and event-shaped proton-source fields, photon kinematics,
-  two emission paths, and event-dependent hadronic survival. This is planned
-  work; no EPA or UPC assembler is implemented yet.
+  two emission paths, and event-dependent hadronic survival. The point-charge
+  field and flux are implemented; the event-shaped source and UPC assembler
+  remain planned work.
 - [GBW mathematics and integration plan](gbw_amplitude_plan.md), with a
   [PDF copy](../output/pdf/gbw_amplitude_plan.pdf). These were written before the
   GBW and nuclear-profile implementation; references to scaffolds and upcoming
@@ -87,11 +88,12 @@ intensity plots are not coherent or incoherent ensemble spectra.
 
 `upcmodel/ensemble.py` now supplies the ensemble mean amplitude, centered
 population variance, and coherent/incoherent spectra used in notebook 3.
-UPC photon fluxes, no-hadronic-interaction probabilities, and interference
-between production pathways come later.
+`upcmodel/epa.py` supplies the analytic transverse field of a point charge
+and its photon flux. Event-shaped EPA, no-hadronic-interaction probabilities,
+and interference between production pathways come later.
 
-The checkpoint includes 41 passing unit tests covering Fourier conventions,
-proton profiles, event amplitudes, skewness, and ensemble moments. Run them
+The unit tests cover Fourier conventions, proton profiles, event amplitudes,
+skewness, ensemble moments, and point-source EPA. Run them
 from the project directory with:
 
 ```sh
@@ -101,3 +103,23 @@ from the project directory with:
 The saved amplitude notebook contains nuclear diagnostics; the current
 cross-section data comparisons are proton benchmarks. Dedicated nuclear
 cross-section benchmarks remain part of the validation work.
+
+## Point-source EPA usage
+
+```python
+from upcmodel.epa import point_charge_epa_field, epa_flux_per_log_energy
+
+field = point_charge_epa_field(
+    omega_GeV=1.0,
+    gamma=100.0,
+    observation_xy_fm=[[10.0, 0.0], [20.0, 0.0]],
+    Z=8,
+)  # complex (2, 2), fm^-1: two observation points, two vector components
+flux = epa_flux_per_log_energy(field)  # (2,), fm^-2 per logarithmic energy
+```
+
+Observation positions are relative to the emitter center; the point at zero
+distance is singular and rejected. Divide `flux` by `omega_GeV` for the flux
+per GeV. The helper includes only the transverse photons used by the current
+target amplitude and applies no hadronic survival factor or impact-parameter
+cut. Coherent sources must be summed as fields before calculating their flux.

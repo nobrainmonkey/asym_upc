@@ -1,7 +1,8 @@
 # EPA mathematics and implementation plan
 
-This is a design document, not an EPA implementation. It connects the current
-event geometry and photon–target amplitudes to a later UPC calculation.
+This document connects the event geometry and photon–target amplitudes to
+the UPC calculation. The analytic point-source field and flux in Section 2
+are implemented in `upcmodel/epa.py`; the later sections describe planned work.
 
 The two requested controls are:
 
@@ -469,7 +470,8 @@ control, optical survival, and the later event-pair prescription.
 
 ## 8. Code sequence
 
-Add `upcmodel/epa.py` with these planned functions; no target-model imports:
+`upcmodel/epa.py` supplies the first two functions below, without target-model
+imports. The proton-source function remains planned:
 
 ```python
 point_charge_epa_field(omega_GeV, gamma, observation_xy_fm, Z)
@@ -498,7 +500,8 @@ Stream/chunk B samples instead of retaining the whole event tensor when large.
 
 Implement in this order:
 
-1. Point-charge field and its flux; validate against its analytic limits and
+1. **Implemented:** point-charge field and its flux, tested against the soft
+   photon limit, large-distance tail, rotation and charge scaling, and the
    integrated sharp-cut expression.
 2. Sum sampled proton fields with the same output convention. Co-located point
    protons must reproduce case 1 exactly. Check transverse rotation covariance
@@ -520,6 +523,7 @@ $1/a=\gamma\beta h/\omega$ scale. Check convergence in B range and quadrature,
 especially at the lowest photon energy. A nuclear-sized FFT box is usually
 far too small for the long-range EPA tail.
 
-**Immediate task:** implement `point_charge_epa_field` first. It has one
-closed-form expression, fixes the units and polarization convention, and
-becomes the single-proton building block for the event-shaped calculation.
+**Next task:** sum shifted unit-charge fields in `proton_source_epa_field`,
+using the original event's proton mask and retaining each vector direction
+and longitudinal phase. The point-charge helper now fixes the shared units
+and polarization convention.
