@@ -1,0 +1,520 @@
+{
+  "seed": 20260911,
+  "W_gammaN_GeV": 40.0,
+  "Q_GeV": 0.0,
+  "M_V_GeV": 0.776,
+  "x": 0.00037636,
+  "kinematics": "x=(Q^2+M_V^2)/(Q^2+W_gammaN^2), no t dependence",
+  "parameters": {
+    "gbw": {
+      "name": "GBW_PAPER",
+      "Q0_GeV": 1.0,
+      "x0": 0.0002,
+      "lambda_gbw": 0.21
+    },
+    "hotspots": {
+      "name": "RHO_HS",
+      "p0": 0.015,
+      "p1": -0.58,
+      "p2": 300,
+      "B_p_GeV_m2": 6.4,
+      "B_hs_GeV_m2": 0.8
+    },
+    "wavefunction": {
+      "m_f_GeV": 0.14,
+      "N_T": 4.47,
+      "R_T_Squared_GeV_m2": 21.9,
+      "eff_charge": 0.7071067811865475
+    },
+    "alpha": {
+      "name": "O16_ALPHA",
+      "A": 16,
+      "Z": 8,
+      "n_clusters": 4,
+      "cluster_A": 4,
+      "cluster_Z": 2,
+      "min_separation_fm": 0.5,
+      "cluster_radius_fm": 2.1,
+      "nucleon_sigma_fm": 0.9814954576223638
+    },
+    "3pf": {
+      "name": "O16_3PF",
+      "A": 16,
+      "Z": 8,
+      "R_fm": 2.608,
+      "a_fm": 0.513,
+      "w": -0.051,
+      "r_max_fm": 10.0,
+      "radial_grid_points": 20001,
+      "min_separation_fm": 0.5
+    }
+  },
+  "grid": {
+    "N_r": 193,
+    "r_min_fm": 0.001,
+    "r_max_fm": 6.0,
+    "N_z": 64,
+    "N_b": 192,
+    "period_fm": 24.0,
+    "spacing_fm": 0.125
+  },
+  "profile_widths_fm": {
+    "nucleon": 0.49920216149392294,
+    "hotspot": 0.17649461678766745
+  },
+  "sigma_0_fm2": 3.131574718308512,
+  "checks": [
+    {
+      "name": "W-to-x photoproduction limit",
+      "passed": true,
+      "detail": "Uses meson mass and W squared"
+    },
+    {
+      "name": "Increasing W decreases x",
+      "passed": true,
+      "detail": "Fixed Q and meson mass"
+    },
+    {
+      "name": "Q_s^2(x0) = Q0^2",
+      "passed": true,
+      "detail": "Q0 is squared once"
+    },
+    {
+      "name": "GBW zero-size limit",
+      "passed": true,
+      "detail": "N(x,0) = 0 exactly"
+    },
+    {
+      "name": "GBW characteristic radius",
+      "passed": true,
+      "detail": "r = 2 h / Qs"
+    },
+    {
+      "name": "GBW small-r expansion",
+      "passed": true,
+      "detail": "Independent leading-order expansion"
+    },
+    {
+      "name": "GBW saturation",
+      "passed": true,
+      "detail": "Large dipole limit"
+    },
+    {
+      "name": "Source normalization: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "Weights retain the original A"
+    },
+    {
+      "name": "Grid captures target weight: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "integrated T = 16; exact full-plane value 16"
+    },
+    {
+      "name": "Source normalization: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "Weights retain the original A"
+    },
+    {
+      "name": "Grid captures target weight: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "integrated T = 16; exact full-plane value 16"
+    },
+    {
+      "name": "Source normalization: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "Weights retain the original A"
+    },
+    {
+      "name": "Grid captures target weight: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "integrated T = 16; exact full-plane value 16"
+    },
+    {
+      "name": "Source normalization: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "Weights retain the original A"
+    },
+    {
+      "name": "Grid captures target weight: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "integrated T = 16; exact full-plane value 16"
+    },
+    {
+      "name": "Finite-A range: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "0 <= D <= 2"
+    },
+    {
+      "name": "Finite-A range: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "0 <= D <= 2"
+    },
+    {
+      "name": "Finite-A range: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "0 <= D <= 2"
+    },
+    {
+      "name": "Finite-A range: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "0 <= D <= 2"
+    },
+    {
+      "name": "Nuclear zero-r limit: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "D(x,0,b) = 0"
+    },
+    {
+      "name": "Thin-target expansion: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "peak-normalized error 7.128e-10"
+    },
+    {
+      "name": "Nuclear zero-r limit: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "D(x,0,b) = 0"
+    },
+    {
+      "name": "Thin-target expansion: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "peak-normalized error 9.929e-10"
+    },
+    {
+      "name": "Nuclear zero-r limit: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "D(x,0,b) = 0"
+    },
+    {
+      "name": "Thin-target expansion: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "peak-normalized error 5.249e-10"
+    },
+    {
+      "name": "Nuclear zero-r limit: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "D(x,0,b) = 0"
+    },
+    {
+      "name": "Thin-target expansion: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "peak-normalized error 1.292e-09"
+    },
+    {
+      "name": "Wavefunction derivative in GeV^-1 coordinate",
+      "passed": true,
+      "detail": "peak-normalized finite-difference error 8.340e-11"
+    },
+    {
+      "name": "Overlap z-exchange symmetry",
+      "passed": true,
+      "detail": "z <-> 1-z at nonzero Q"
+    },
+    {
+      "name": "Dipole-angle integral gives J0",
+      "passed": true,
+      "detail": "max complex error from 2048 angles 3.377e-16"
+    },
+    {
+      "name": "Analytic H(r,0;0)",
+      "passed": true,
+      "detail": "max relative error 4.441e-16"
+    },
+    {
+      "name": "Adaptive H comparison, Q=0",
+      "passed": true,
+      "detail": "max absolute error 3.469e-18 GeV^2"
+    },
+    {
+      "name": "Adaptive H comparison, Q=0.7",
+      "passed": true,
+      "detail": "max absolute error 3.469e-18 GeV^2"
+    },
+    {
+      "name": "Adaptive H comparison, Q=2",
+      "passed": true,
+      "detail": "max absolute error 5.258e-15 GeV^2"
+    },
+    {
+      "name": "Generic FFT analytic Gaussian",
+      "passed": true,
+      "detail": "max error 2.483e-16"
+    },
+    {
+      "name": "Generic direct FT analytic Gaussian",
+      "passed": true,
+      "detail": "max error 1.241e-16"
+    },
+    {
+      "name": "Angular/cyclic FFT conventions",
+      "passed": true,
+      "detail": "2 pi in frequency; sqrt(2 pi) in normalization"
+    },
+    {
+      "name": "FFT/direct agreement at N=256",
+      "passed": true,
+      "detail": "Same momentum bins and negligible boundary values"
+    },
+    {
+      "name": "FFT/direct agreement at N=512",
+      "passed": true,
+      "detail": "Same momentum bins and negligible boundary values"
+    },
+    {
+      "name": "FFT/direct agreement at N=1024",
+      "passed": true,
+      "detail": "Same momentum bins and negligible boundary values"
+    },
+    {
+      "name": "Projected FFT: Gaussian units and normalization",
+      "passed": true,
+      "detail": "max absolute error 8.039e-14 GeV^-2"
+    },
+    {
+      "name": "Projected FFT: zero profile row",
+      "passed": true,
+      "detail": "Radius rows are not shifted or mixed"
+    },
+    {
+      "name": "Projected FFT: translation phase",
+      "passed": true,
+      "detail": "max error 1.634e-13"
+    },
+    {
+      "name": "Amplitude shape and finiteness: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "F (193, 192); H (193, 192); A (192,)"
+    },
+    {
+      "name": "Forward amplitude phase: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "A(0) = 39.56981964792613j"
+    },
+    {
+      "name": "Amplitude conjugation symmetry: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "A(-Delta) = -A(Delta)*; max error 2.512e-15"
+    },
+    {
+      "name": "Full direct amplitude comparison: ('WS / 3pF', 'nucleon')",
+      "passed": true,
+      "detail": "reverse integration order and explicit b phase; error 1.792e-14 GeV^-2"
+    },
+    {
+      "name": "Amplitude shape and finiteness: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "F (193, 192); H (193, 192); A (192,)"
+    },
+    {
+      "name": "Forward amplitude phase: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "A(0) = 36.49948890849312j"
+    },
+    {
+      "name": "Amplitude conjugation symmetry: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "A(-Delta) = -A(Delta)*; max error 1.998e-15"
+    },
+    {
+      "name": "Full direct amplitude comparison: ('WS / 3pF', 'hotspot')",
+      "passed": true,
+      "detail": "reverse integration order and explicit b phase; error 1.641e-14 GeV^-2"
+    },
+    {
+      "name": "Amplitude shape and finiteness: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "F (193, 192); H (193, 192); A (192,)"
+    },
+    {
+      "name": "Forward amplitude phase: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "A(0) = 41.18267910962043j"
+    },
+    {
+      "name": "Amplitude conjugation symmetry: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "A(-Delta) = -A(Delta)*; max error 3.109e-15"
+    },
+    {
+      "name": "Full direct amplitude comparison: ('alpha', 'nucleon')",
+      "passed": true,
+      "detail": "reverse integration order and explicit b phase; error 4.263e-14 GeV^-2"
+    },
+    {
+      "name": "Amplitude shape and finiteness: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "F (193, 192); H (193, 192); A (192,)"
+    },
+    {
+      "name": "Forward amplitude phase: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "A(0) = 37.3151863952457j"
+    },
+    {
+      "name": "Amplitude conjugation symmetry: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "A(-Delta) = -A(Delta)*; max error 1.490e-15"
+    },
+    {
+      "name": "Full direct amplitude comparison: ('alpha', 'hotspot')",
+      "passed": true,
+      "detail": "reverse integration order and explicit b phase; error 1.177e-14 GeV^-2"
+    },
+    {
+      "name": "Radial normalization on a nonuniform grid",
+      "passed": true,
+      "detail": "Analytic integral of r; includes signed H and complex F"
+    },
+    {
+      "name": "Zero response gives zero amplitude",
+      "passed": true,
+      "detail": "No spurious offset or lost K axis"
+    },
+    {
+      "name": "Cumulative radial integral at bin 96",
+      "passed": true,
+      "detail": "Matches the production amplitude endpoint"
+    },
+    {
+      "name": "Cumulative radial integral at bin 99",
+      "passed": true,
+      "detail": "Matches the production amplitude endpoint"
+    },
+    {
+      "name": "Cumulative radial integral at bin 103",
+      "passed": true,
+      "detail": "Matches the production amplitude endpoint"
+    },
+    {
+      "name": "Complete amplitude translation phase",
+      "passed": true,
+      "detail": "max error 1.948e-14 GeV^-2; source/window translate together"
+    },
+    {
+      "name": "Frozen-source A(0) increases with W: nucleon",
+      "passed": true,
+      "detail": "Fixed Q and positive forward overlap; GBW is the only varying component"
+    },
+    {
+      "name": "Frozen-source A(0) increases with W: hotspot",
+      "passed": true,
+      "detail": "Fixed Q and positive forward overlap; GBW is the only varying component"
+    },
+    {
+      "name": "Default radial grid versus refined grid",
+      "passed": true,
+      "detail": "max |delta A|/|A_ref(0)| at q <= 0.6 GeV: 3.134e-04; tolerance 0.003"
+    },
+    {
+      "name": "Same momentum bins at transverse N=64",
+      "passed": true,
+      "detail": "Fixed FFT period permits a direct comparison"
+    },
+    {
+      "name": "Same momentum bins at transverse N=96",
+      "passed": true,
+      "detail": "Fixed FFT period permits a direct comparison"
+    },
+    {
+      "name": "Same momentum bins at transverse N=128",
+      "passed": true,
+      "detail": "Fixed FFT period permits a direct comparison"
+    },
+    {
+      "name": "Same momentum bins at transverse N=192",
+      "passed": true,
+      "detail": "Fixed FFT period permits a direct comparison"
+    },
+    {
+      "name": "Same momentum bins at transverse N=256",
+      "passed": true,
+      "detail": "Fixed FFT period permits a direct comparison"
+    },
+    {
+      "name": "Default transverse spacing versus refined grid",
+      "passed": true,
+      "detail": "max |delta A|/|A_ref(0)|: 5.198e-08; tolerance 0.003"
+    },
+    {
+      "name": "Default transverse box versus 32-fm box",
+      "passed": true,
+      "detail": "forward amplitude relative difference 0.000e+00; same 0.125-fm spacing"
+    },
+    {
+      "name": "Reject x=0",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject r=0 in raw overlap",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject negative momentum magnitude",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject nonuniform FFT input",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject mismatched H/F grids",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject nonincreasing radii",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    },
+    {
+      "name": "Reject finite-A opacity above one",
+      "passed": true,
+      "detail": "Raised ValueError as intended"
+    }
+  ],
+  "convergence": {
+    "radial_error": 0.0003134474056459796,
+    "transverse_spacing_error": 5.198125433785618e-08,
+    "box_forward_error": 0.0
+  },
+  "versions": {
+    "python": "3.14.6",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  },
+  "source_sha256": {
+    "parameters.py": "8d25ce87f5e0320635f00074dbc797c52bbf1bd79bed8a0dd333cae12c2c75a1",
+    "densities.py": "ac2771dc861daeac81c65d14a2f6bb3c3561812ef6238aa7cb725b55a8c73c96",
+    "geometry.py": "add0b86e0f037fd9554ca672800cdf24149a4f51df0a82b6a054df9e3f0c18b9",
+    "fourier_transform.py": "9b1d9de69757181de048a45e3005b17cdb1cca022c90820d74223a75402c4f9a",
+    "wavefunctions.py": "cdf58c4922246fcfe11090994f72bbb6d50399c9d5da2870438fdcb697ab32ac",
+    "amplitudes.py": "0b43c50039ccc47ae5ff104178a422a7891661576f548e333f6580a09f76db43"
+  },
+  "figures": [
+    "01_energy_to_x.png",
+    "02_gbw_strength.png",
+    "03_nuclear_profile_maps.png",
+    "04_nuclear_screening.png",
+    "05_wavefunction_maps.png",
+    "06_overlap_slices_and_derivative.png",
+    "07_dipole_angle_to_j0.png",
+    "08_integrated_overlap_maps.png",
+    "09_overlap_quadrature_audit.png",
+    "10_generic_fourier_gaussian.png",
+    "11_fourier_timing.png",
+    "12_projected_fourier_audit.png",
+    "13_complete_event_amplitudes.png",
+    "14_radial_contributions.png",
+    "15_event_translation_and_rotation.png",
+    "16_energy_in_complete_amplitude.png",
+    "17_virtuality_in_complete_amplitude.png",
+    "18_event_fluctuation_gallery.png",
+    "19_radial_convergence.png",
+    "20_transverse_convergence.png"
+  ],
+  "elapsed_seconds": 20.273297250038013
+}

@@ -1,0 +1,28 @@
+{
+  "fft_events": 8,
+  "fft_max_relative_to_peak_amplitude_error": 2.884624096219475e-13,
+  "monte_carlo_events": 32768,
+  "t_GeV2": [
+    0.049999999999999996,
+    0.1,
+    0.5000000000000001,
+    1.0,
+    2.0000000000000004
+  ],
+  "mean_deviation_standard_errors": [
+    0.40646700114111073,
+    0.4297674431668432,
+    0.352462730592225,
+    0.15497685665473734,
+    0.4295938707228856
+  ],
+  "variance_deviation_standard_errors": [
+    1.4814271868360034,
+    1.4233037333101233,
+    0.4028645194987424,
+    0.09467885770819442,
+    0.4511376647562642
+  ],
+  "quadrature_refinement_max_relative_amplitude_change": 4.0648748356186815e-05,
+  "upcmodel_unchanged": true
+}

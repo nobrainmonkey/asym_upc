@@ -1,8 +1,12 @@
 from dataclasses import dataclass
 import math
 
+import numpy as np
+
 
 HBARC_GEV_FM = 0.1973269804  # GeV*fm
+ALPHA_EM = 1/137.036
+E_EM = math.sqrt(4. * math.pi * ALPHA_EM)
 @dataclass(frozen=True)
 class FermiParameters:
     name: str
@@ -150,4 +154,46 @@ GBW_PAPER = GBWParameters(
     Q0_GeV=1.0,
     x0=2e-4,
     lambda_gbw=0.21,
+)
+
+
+@dataclass(frozen=True)
+class GausLCParameters:
+    """Transverse Gaus-LC wavefunction parameters; m_f is the quark mass."""
+
+    m_f_GeV: float
+    N_T: float                     # Dimensionless normalization.
+    R_T_Squared_GeV_m2: float       # R_T^2 in GeV^-2; already squared.
+    eff_charge: float              # Dimensionless effective flavor charge.
+
+    def __post_init__(self):
+        positive_fields = ("m_f_GeV", "N_T", "R_T_Squared_GeV_m2")
+        for name in positive_fields:
+            value = np.asarray(getattr(self, name), dtype=float)
+            if value.ndim != 0 or not np.isfinite(value) or value <= 0:
+                raise ValueError(f"{name} must be a finite positive scalar")
+
+        charge = np.asarray(self.eff_charge, dtype=float)
+        if charge.ndim != 0 or not np.isfinite(charge):
+            raise ValueError("eff_charge must be a finite scalar")
+
+
+# Meson masses and Gaus-LC parameters from Kowalski, Motyka and Watt,
+# hep-ph/0606272, Table 1: https://arxiv.org/html/hep-ph/0606272
+# These masses enter x=(Q^2+M_V^2)/(Q^2+W^2); m_f below enters the overlap.
+JPSI_MASS_GEV = 3.097
+RHO_MASS_GEV = 0.776
+
+JPSI_GAUS_LC_PARAM = GausLCParameters(
+    m_f_GeV=1.4,
+    N_T=1.23,
+    R_T_Squared_GeV_m2=6.5,
+    eff_charge=2 / 3,
+)
+
+RHO_GAUS_LC_PARAM = GausLCParameters(
+    m_f_GeV=0.14,
+    N_T=4.47,
+    R_T_Squared_GeV_m2=21.9,
+    eff_charge=1 / np.sqrt(2),
 )

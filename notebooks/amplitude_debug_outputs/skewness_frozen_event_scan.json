@@ -1,0 +1,114 @@
+{
+  "event": "saved WS O16 hotspot event",
+  "hotspot_count": 158,
+  "nucleons": 16,
+  "meson": "rho",
+  "Q_GeV": 0.0,
+  "t_GeV2": 0.0,
+  "x_min": 1e-12,
+  "x_max": 0.1,
+  "points": 90,
+  "reference_x": 0.00037636,
+  "reference_lambda": 0.02443568072729559,
+  "reference_Rg": 1.0206343557414632,
+  "reference_Rg_squared": 1.0416944881197916,
+  "lambda_min": 0.0007221149827922786,
+  "lambda_max": 0.055441083189921005,
+  "Rg_min": 1.000601997452431,
+  "Rg_max": 1.0476126942633643,
+  "Rg_squared_min": 1.0012043573057947,
+  "Rg_squared_max": 1.0974923571817452,
+  "forward_amplitude_min_GeV_m2": 29.464136265433346,
+  "forward_amplitude_max_GeV_m2": 41.911001575934705,
+  "lambda_gbw": 0.21,
+  "Rg_bound_frozen_forward_GBW": 1.1964115247690252,
+  "Rg_formula_values": {
+    "0": 1.0,
+    "0.21": 1.1964115247690252,
+    "0.5": 1.5521396354866746,
+    "1": 2.5000000000000013,
+    "2": 6.999999999999995,
+    "3": 20.99999999999999,
+    "4": 65.99999999999986
+  },
+  "lambda_for_Rg_threshold": {
+    "2": 0.7700132323660194,
+    "10": 2.33035127654525,
+    "100": 4.355368043322474
+  },
+  "finite_difference_validation_max_relative_error": 3.6122538140670457e-06,
+  "finite_difference_validation": [
+    {
+      "x": 1e-12,
+      "analytic_lambda": 0.0007221149827922786,
+      "finite_difference_lambda": 0.0007221175912548794,
+      "relative_difference": 3.6122538140670457e-06
+    },
+    {
+      "x": 2.3713737056616552e-11,
+      "analytic_lambda": 0.0013042460466702649,
+      "finite_difference_lambda": 0.0013042506536703252,
+      "relative_difference": 3.5323090088468234e-06
+    },
+    {
+      "x": 5.623413251903491e-10,
+      "analytic_lambda": 0.0023410410107938626,
+      "finite_difference_lambda": 0.0023410490446635476,
+      "relative_difference": 3.4317509380876743e-06
+    },
+    {
+      "x": 1.333521432163324e-08,
+      "analytic_lambda": 0.004169164585090226,
+      "finite_difference_lambda": 0.004169178333205545,
+      "relative_difference": 3.297570781546355e-06
+    },
+    {
+      "x": 3.162277660168379e-07,
+      "analytic_lambda": 0.007347322546912237,
+      "finite_difference_lambda": 0.0073473453743886806,
+      "relative_difference": 3.1069108914483223e-06
+    },
+    {
+      "x": 7.498942093324558e-06,
+      "analytic_lambda": 0.012755820534111723,
+      "finite_difference_lambda": 0.012755856546852826,
+      "relative_difference": 2.8232398696648175e-06
+    },
+    {
+      "x": 0.00017782794100389227,
+      "analytic_lambda": 0.02165409762894555,
+      "finite_difference_lambda": 0.021654149590343827,
+      "relative_difference": 2.399610418590825e-06
+    },
+    {
+      "x": 0.00037636,
+      "analytic_lambda": 0.02443568072729559,
+      "finite_difference_lambda": 0.02443573630406504,
+      "relative_difference": 2.2744105256933267e-06
+    },
+    {
+      "x": 0.0031622776601683794,
+      "analytic_lambda": 0.03402341407797957,
+      "finite_difference_lambda": 0.03402347757997232,
+      "relative_difference": 1.8664203598195428e-06
+    },
+    {
+      "x": 0.07498942093324558,
+      "analytic_lambda": 0.05337680247496049,
+      "finite_difference_lambda": 0.05337686422681986,
+      "relative_difference": 1.156904432475514e-06
+    },
+    {
+      "x": 0.1,
+      "analytic_lambda": 0.055441083189921005,
+      "finite_difference_lambda": 0.05544114365064145,
+      "relative_difference": 1.090540028503284e-06
+    }
+  ],
+  "scope": "One fixed geometry for the full x scan. No evolution of hotspot counts or positions. Values above x=0.01 are extrapolation.",
+  "elapsed_s": 20.8857010420179,
+  "sources": [
+    "https://arxiv.org/html/2312.11320v2#S2",
+    "https://arxiv.org/html/1306.6661"
+  ]
+}

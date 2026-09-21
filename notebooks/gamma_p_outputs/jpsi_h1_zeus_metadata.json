@@ -1,0 +1,53 @@
+{
+  "calculations": {
+    "75": {
+      "process": "J/psi photoproduction",
+      "W_GeV": 75.0,
+      "Q2_GeV2": 0.0,
+      "M_GeV": 3.097,
+      "x": 0.0017051393777777779,
+      "Bp_GeV_m2": 4.75,
+      "Bhs_GeV_m2": 0.8,
+      "sigma0_GeV_m2": 59.690260418206066,
+      "poisson_parameter": 8.098157705321286,
+      "mean_Nhs": 8.100621094978148,
+      "mean_inverse_Nhs": 0.14476593915157526,
+      "lambda_forward": 0.15612455052014917,
+      "Rg": 1.1417088182164796,
+      "real_part_correction_applied": false,
+      "wavefunction": "KMW Table 1 J/psi Gaus-LC: mf=1.4, NT=1.23, RT2=6.5, ehat=2/3",
+      "phase": "J0((1/2-z)*r*Delta/hbarc), unchanged repo convention",
+      "ensemble": "Exact Gaussian and zero-truncated-Poisson moments; no Monte Carlo noise",
+      "r_fm_min": 0.0001,
+      "r_fm_max": 5.0,
+      "nr": 601,
+      "nz": 96
+    },
+    "100": {
+      "process": "J/psi photoproduction",
+      "W_GeV": 100.0,
+      "Q2_GeV2": 0.0,
+      "M_GeV": 3.097,
+      "x": 0.0009591409,
+      "Bp_GeV_m2": 4.75,
+      "Bhs_GeV_m2": 0.8,
+      "sigma0_GeV_m2": 59.690260418206066,
+      "poisson_parameter": 8.69074563653603,
+      "mean_Nhs": 8.692207097405179,
+      "mean_inverse_Nhs": 0.13312614623496372,
+      "lambda_forward": 0.15181839268889163,
+      "Rg": 1.1374719697891864,
+      "real_part_correction_applied": false,
+      "wavefunction": "KMW Table 1 J/psi Gaus-LC: mf=1.4, NT=1.23, RT2=6.5, ehat=2/3",
+      "phase": "J0((1/2-z)*r*Delta/hbarc), unchanged repo convention",
+      "ensemble": "Exact Gaussian and zero-truncated-Poisson moments; no Monte Carlo noise",
+      "r_fm_min": 0.0001,
+      "r_fm_max": 5.0,
+      "nr": 601,
+      "nz": 96
+    }
+  },
+  "energy_treatment": "Representative W=100 and 75 GeV, as in the literature; no energy rescaling of data",
+  "data": "notebooks/data/jpsi_dissociation_hera.csv",
+  "model_M_Y_cut": null
+}

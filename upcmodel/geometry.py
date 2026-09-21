@@ -18,6 +18,33 @@ else:
 
 rng = np.random.default_rng(seed=2026)
 
+
+def transverse_grid(half_width_fm, n_points):
+    """Return bx_fm, by_fm, and flattened transverse points in FFT order.
+
+    Each axis has n_points samples on [-half_width_fm, half_width_fm),
+    excluding the upper endpoint. The returned shapes are (N,), (N,),
+    and (N*N, 2). Row i*N + j contains [bx_fm[i], by_fm[j]], matching
+    the indexing="ij" layout expected by dipole_profile_fourier_x.
+    All coordinates are in fm.
+    """
+    half_width_fm = float(half_width_fm)
+    if not np.isfinite(half_width_fm) or half_width_fm <= 0:
+        raise ValueError("half_width_fm must be finite and positive")
+    if (
+        isinstance(n_points, (bool, np.bool_))
+        or not isinstance(n_points, (int, np.integer))
+        or n_points < 2
+    ):
+        raise ValueError("n_points must be an integer of at least 2")
+
+    bx_fm = np.linspace(-half_width_fm, half_width_fm, n_points, endpoint=False)
+    by_fm = bx_fm.copy()
+    bx_grid, by_grid = np.meshgrid(bx_fm, by_fm, indexing="ij")
+    b_points = np.column_stack((bx_grid.ravel(), by_grid.ravel()))
+    return bx_fm, by_fm, b_points
+
+
 def fermi_radial_cdf(r_grid_fm, radial_pdf_values):
     r_grid_fm=np.asarray(r_grid_fm,dtype=float)
     radial_pdf_values = np.asarray(radial_pdf_values,dtype=float)

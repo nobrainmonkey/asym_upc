@@ -2,8 +2,14 @@
 *.pdf binary
 *.png binary
 *.npz binary
+*.svg binary
+
+# CSV writers use CRLF; retain the reference tables' original line endings.
+*.csv whitespace=cr-at-eol
 
 # HTML exports bundle generated plotting code and data.
-notebooks/01_spherical_geometry.html binary linguist-generated=true
+notebooks/*.html binary linguist-generated=true
 notebooks/geometry_debug_outputs/*.html binary linguist-generated=true
 notebooks/geometry_debug_outputs/** linguist-generated=true
+notebooks/amplitude_debug_outputs/** linguist-generated=true
+notebooks/gamma_p_outputs/** linguist-generated=true

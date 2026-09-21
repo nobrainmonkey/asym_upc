@@ -1,0 +1,7 @@
+{
+  "coherent_W100_max_relative_difference": 0.0,
+  "incoherent_W100_max_relative_difference": 0.0,
+  "W75_rz_refinement_max_relative_amplitude_change": 4.0647096101964486e-05,
+  "W75_rz_refinement_max_relative_spectrum_change": 8.129254001754127e-05,
+  "changed_upcmodel_files": []
+}
